@@ -1,0 +1,53 @@
+<%: func History(exams []databaselayer.Exam, w io.Writer) %>
+
+<%!
+    import (
+        "strconv"
+        "fmt"
+    )
+
+    func UIntToStr(i uint)string{
+        return fmt.Sprint(i)
+    }
+
+
+%>
+
+<%~ "index.html" %>
+
+<%@ nav { %>
+<div class="uk-navbar-left">
+    <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+</div>
+
+<div class="uk-navbar-right">
+    <ul class="uk-navbar-nav">
+        <li><a href="/history">تاریخچه</a></li>
+        <li><a href="/takeexam">شرکت در آزمون</a></li>
+        <li><a href="/createexam">برگذاری آزمون</a></li>
+        <li><a href="/dashboard">خانه</a></li>
+    </ul>
+
+</div>
+<% } %>
+
+<%@ body { %>
+<div class="uk-card uk-card-default uk-card-body" style="margin-top: 100px;">
+    <table class="uk-table uk-table-justify uk-table-divider uk-table-hover" dir="rtl">
+        <thead>
+            <tr>
+                <th style="text-align: right;" class="uk-table-expand">عنوان</th>
+                <th style="text-align: right;">عملیات ها</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for _, exam := range exams { %>
+            <tr>
+                <td><%= exam.Name %></td>
+                <td><a href="/examdetail/<%== UIntToStr(exam.ID) %>"><button class="uk-button uk-button-primary" type="button">مشاهده</button></a></td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+<% } %>

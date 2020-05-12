@@ -1,0 +1,48 @@
+<%: func TakeExam(wrong bool, w io.Writer) %>
+
+<%~ "index.html" %>
+
+<%@ nav { %>
+<div class="uk-navbar-left">
+    <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+</div>
+
+<div class="uk-navbar-right">
+    <ul class="uk-navbar-nav">
+        <li><a href="/history">تاریخچه</a></li>
+        <li><a href="/takeexam">شرکت در آزمون</a></li>
+        <li><a href="/createexam">برگذاری آزمون</a></li>
+        <li><a href="/dashboard">خانه</a></li>
+    </ul>
+
+</div>
+<% } %>
+
+<%@ body { %>
+<div class="uk-card uk-card-default uk-card-body" style="margin-top: 100px;">
+
+    <% if wrong { %>
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>کد ورودی و یا پسورد آزمون اشتباه می باشد. لطفا پس از اطمینان دوباره وارد شوید!</p>
+    </div>
+    <% } %>
+
+    <form method="POST">
+        <fieldset class="uk-fieldset">
+            <div class="uk-margin" style="direction: rtl;">
+                <input name="exam_code" class="uk-input" type="text" placeholder="کد آزمون">
+                <div style="margin-top: 20px;;">
+                    <h6>پسورد آزمون را وارد کنید - در صورتی که آزمون شمابدون پسورد میباشد آن را خالی بگذارید</h6>
+                    <input name="password" class="uk-input" type="password" placeholder="رمز آزمون">
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <input type="submit" class="uk-button uk-button-secondary" value="شرکت در آزمون">
+            </div>
+
+        </fieldset>
+    </form>
+</div>
+<% } %>

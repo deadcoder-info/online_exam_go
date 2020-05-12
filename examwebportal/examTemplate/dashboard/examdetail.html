@@ -1,0 +1,73 @@
+<%: func ExamDetail(exam databaselayer.Exam, createdAt string, questions []databaselayer.Question, w io.Writer) %>
+
+<%~ "index.html" %>
+
+<%@ nav { %>
+<div class="uk-navbar-left">
+    <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+</div>
+
+<div class="uk-navbar-right">
+    <ul class="uk-navbar-nav">
+        <li><a href="/history">تاریخچه</a></li>
+        <li><a href="/takeexam">شرکت در آزمون</a></li>
+        <li><a href="/createexam">برگذاری آزمون</a></li>
+        <li><a href="/dashboard">خانه</a></li>
+    </ul>
+
+</div>
+<% } %>
+
+<%@ body { %>
+<div class="uk-card uk-card-default" style="margin-top: 100px;" dir="rtl">
+    <div class="uk-card-header" dir="rtl">
+        <div class="uk-grid-small uk-flex-middle" uk-grid>
+            <div class="uk-width-expand">
+                <h3 class="uk-card-title uk-margin-remove-bottom"><%= exam.Name %></h3>
+                <p class="uk-text-meta uk-margin-top"><time><%= createdAt %></time></p>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-body">
+        <div uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <h3>توجه</h3>
+            <p>هم اکنون امکان ویرایش آزمون وجود ندارد. در صورت نیاز آزمون را پاک کرده و از ابتدا آزمون جدیدی بسازید.</p>
+        </div>
+        <% if !exam.Public { %>
+        <div class="uk-alert-warning" uk-alert>
+            <p>این آزمون از نوع خصوصی می باشد. برای شرکت در آن باید پسورد را در اختیار شرکت کنندگان قرار دهید.</p>
+        </div>
+        <% } %>
+    </div>
+
+    <h4 class="uk-padding uk-padding-remove-bottom uk-padding-remove-top">سوال های افزوده شده به این آزمون - برای دیدن
+        پاسخ های هر سوال روی سوال ها کلیک کنید</h4>
+
+    <ul class="uk-list uk-list-striped uk-padding">
+        <% for _, q := range questions { %>
+        <li uk-toggle="target: #data_<%== UIntToStr(q.ID) %>"><%= q.Question %>
+            <ul hidden dir="ltr" id="data_<%== UIntToStr(q.ID) %>" class="uk-list uk-padding">
+                <li dir="ltr"><%= q.Answer1 %></li>
+                <hr />
+                <li><%= q.Answer2 %></li>
+                <hr />
+                <li><%= q.Answer3 %></li>
+                <hr />
+                <li><%= q.Answer4 %></li>
+            </ul>
+        </li>
+        <% } %>
+    </ul>
+
+    <div class="uk-padding uk-padding-remove-top">
+        <h4>برای این که یگران بتوانند در این آزمون شرکت کنند از آن ها بخواهید که کد زیر را در بخش شرکت در آزمون وارد کنند و در صورتی که آزمون شما از نوع خصوصی میباشد لطفا پسورد را نیز با آن ها به اشتراک بگذارید.</h4>
+        <h5><%= UIntToStr(exam.ID) %></h5>
+    </div>
+
+    <div class="uk-card-footer">
+        <a href="#" class="uk-button uk-button-danger">حذف</a>
+        <a href="/addquestion/<%= UIntToStr(exam.ID) %>" class="uk-button uk-button-info">افزودن سوال</a>
+    </div>
+</div>
+<% } %>

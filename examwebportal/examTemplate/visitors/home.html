@@ -1,0 +1,26 @@
+<%: func Home(loggedIn bool, w io.Writer) %>
+
+<%~ "index.html" %>
+<%@ cover { %>
+<img src="static/assets/main_page.jpg" alt="" uk-cover>
+<% } %>
+
+<%@ nav { %>
+<div class="uk-navbar-left">
+    <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+</div>
+
+<div class="uk-navbar-right">
+    <ul class="uk-navbar-nav">
+        <li><a href="/phoneverify">ثبت نام</a></li>
+        <li><a href="/login">ورود</a></li>
+    </ul>
+
+</div>
+<% } %>
+
+<%@ body { %>
+<div class="uk-overlay uk-overlay-primary uk-position-center">
+    <p style="direction: rtl;">برگذاری آزمون های آنلاین به راحتی با آزمون ساز در کمترین زمان ممکن میباشد...</p>
+</div>
+<% } %>

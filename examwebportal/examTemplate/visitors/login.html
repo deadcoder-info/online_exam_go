@@ -1,0 +1,56 @@
+<%: func Login(wrongData bool, w io.Writer) %>
+
+<%~ "index.html" %>
+<%@ cover { %>
+<img src="static/assets/main_page.jpg" alt="" uk-cover>
+<% } %>
+
+<%@ nav { %>
+<div class="uk-navbar-left">
+    <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+</div>
+
+<div class="uk-navbar-right">
+    <ul class="uk-navbar-nav">
+        <li><a href="/phoneverify">ثبت نام</a></li>
+        <li><a href="/login">ورود</a></li>
+    </ul>
+
+</div>
+<% } %>
+
+<%@ body { %>
+<div class="uk-flex uk-flex-center uk-flex-middle uk-height-viewport">
+    <div>
+        <div class="uk-card uk-card-default uk-card-body">
+            <h3 class="uk-card-title">ورود</h3>
+            <form method="POST">
+
+                <div class="uk-margin">
+                    <div class="uk-inline">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input class="uk-input" name="username" placeholder="نام کاربری" type="text">
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <div class="uk-inline">
+                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                        <input class="uk-input" name="password" placeholder="پسورد" type="password">
+                    </div>
+                </div>
+
+                <input type="submit" class="uk-button" value="ورود">
+
+                <% if wrongData { %>
+                <div class="uk-alert-danger" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p>نام کاربری یا رمز عبور اشتباه می باشد</p>
+                </div>
+                <% } %>
+
+            </form>
+        </div>
+    </div>
+</div>
+<% } %>

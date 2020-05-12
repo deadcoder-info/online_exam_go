@@ -1,0 +1,52 @@
+<%: func CreateExam(w io.Writer) %>
+
+<%~ "index.html" %>
+
+<%@ nav { %>
+<div class="uk-navbar-left">
+    <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+</div>
+
+<div class="uk-navbar-right">
+    <ul class="uk-navbar-nav">
+        <li><a href="/history">تاریخچه</a></li>
+        <li><a href="/takeexam">شرکت در آزمون</a></li>
+        <li><a href="/createexam">برگذاری آزمون</a></li>
+        <li><a href="/dashboard">خانه</a></li>
+    </ul>
+
+</div>
+<% } %>
+
+<%@ body { %>
+<div class="uk-card uk-card-default uk-card-body" style="margin-top: 100px;">
+    <form dir="rtl" method="POST">
+        <legend class="uk-legend">افزودن آزمون</legend>
+        <fieldset class="uk-fieldset uk-margin">
+            <div class="uk-margin" style="direction: rtl;">
+                <input class="uk-input" type="text" placeholder="نام آزمون">
+            </div>
+
+            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                <label><input class="uk-radio" type="radio" name="public" checked> دسترسی عمومی</label>
+                <label><input class="uk-radio" type="radio" name="private"> دسترسی با پسورد</label>
+            </div>
+
+            <hr />
+            <p>در صورتی که دسترسی آزمون شما آزاد باشد، نیازی به ورود پسورد در زمان شروع آزمون نمیباشد.</p>
+
+            <div class="uk-margin" style="direction: rtl;">
+                <input class="uk-input" type="password" name="exam_password" placeholder="رمز آزمون">
+                <input class="uk-input" type="password" name="exam_password_confirm" placeholder="تکرار رمز">
+            </div>
+
+            <hr />
+
+            <div class="uk-margin">
+                <input type="submit" class="uk-button uk-button-primary" value="افزودن سوال">
+            </div>
+    
+        </fieldset>
+    </form>
+</div>
+<% } %>

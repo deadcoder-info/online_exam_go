@@ -1,0 +1,44 @@
+<%: func AddQuestionToExam(w io.Writer) %>
+
+<%~ "index.html" %>
+
+<%@ nav { %>
+<div class="uk-navbar-left">
+    <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+</div>
+
+<div class="uk-navbar-right">
+    <ul class="uk-navbar-nav">
+        <li><a href="/history">تاریخچه</a></li>
+        <li><a href="/takeexam">شرکت در آزمون</a></li>
+        <li><a href="/createexam">برگذاری آزمون</a></li>
+        <li><a href="/dashboard">خانه</a></li>
+    </ul>
+
+</div>
+<% } %>
+
+<%@ body { %>
+<div class="uk-card uk-card-default uk-card-body" style="margin-top: 100px;">
+    <form method="POST">
+        <fieldset class="uk-fieldset">    
+            <div class="uk-margin" style="direction: rtl;">
+                <input name="question" class="uk-input" type="text" placeholder="صورت سوال">
+            </div>
+
+            <div class="uk-margin" style="direction: rtl;">
+                <input class="uk-input" name="answer_1" type="text" placeholder="گزینه ی 1">
+                <input class="uk-input" name="answer_2" type="text" placeholder="گزینه ی 2">
+                <input class="uk-input" name="answer_3" type="text" placeholder="گزینه ی 3">
+                <input class="uk-input" name="answer_4" type="text" placeholder="گزینه ی 4">
+            </div>
+
+            <div class="uk-margin">
+                <input type="submit" name="add_question_btn" class="uk-button uk-button-primary" value="افزودن سوال">
+                <input type="submit" name="submit_exam" class="uk-button uk-button-secondary" value="ثبت آزمون">
+            </div>
+    
+        </fieldset>
+    </form>
+</div>
+<% } %>
