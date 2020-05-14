@@ -32,8 +32,9 @@ func CreateExam(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		fmt.Println(activeExamSession.Values[CURRENTEXAMCREATEINDEX])
 		exam := databaselayer.Exam{
 			UserID:   user.ID,
-			Name:     r.FormValue("name"),
-			Password: r.FormValue("password"),
+			Name:     r.FormValue("exam_name"),
+			Time:     r.FormValue("exam_time"),
+			Password: r.FormValue("exam_password"),
 			Public:   !private,
 		}
 		db.Create(&exam)
@@ -139,6 +140,14 @@ func TakeExam(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		examID := r.FormValue("exam_code")
 		examPasword := r.FormValue("password")
 
+		examParticipation := databaselayer.ExamParticipation{}
+
+		db.Where("UserID = ? AND ExamID = ?", user.ID, examID).Find(&examParticipation)
+
+		if examParticipation.ID >= 0 {
+			examTemplate.TakeExam(false, true, w)
+		}
+
 		exam := databaselayer.Exam{}
 		db.First(&exam, examID)
 
@@ -181,7 +190,12 @@ func TakeExamCode(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 
 	switch r.Method {
 	case "GET":
-		examTemplate.TakeExamCode(false, w)
+		timein := time.Now().Local().Add(time.Hour*time.Duration(0) +
+			time.Minute*time.Duration(70) +
+			time.Second*time.Duration(0))
+		fmt.Println(timein.Format(time.RFC3339))
+		x := timein.Format(time.RFC3339)
+		examTemplate.TakeExamCode(false, x, w)
 	case "POST":
 		examID := r.FormValue("exam_code")
 		examPasword := r.FormValue("password")
@@ -194,9 +208,6 @@ func TakeExamCode(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		if exam.ID > 0 {
 			allowed = true
 		}
-
-		t := time.Now()
-		fmt.Println(t.Format("2020-05-13T15:18:49+00:00"))
 
 		if exam.Password != "" {
 			if exam.Password != examPasword {

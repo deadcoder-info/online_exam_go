@@ -1,4 +1,4 @@
-<%: func TakeExam(wrong bool, w io.Writer) %>
+<%: func TakeExam(wrong bool, alreadyTaken bool, w io.Writer) %>
 
 <%~ "index.html" %>
 
@@ -25,6 +25,13 @@
     <div class="uk-alert-danger" uk-alert>
         <a class="uk-alert-close" uk-close></a>
         <p>کد ورودی و یا پسورد آزمون اشتباه می باشد. لطفا پس از اطمینان دوباره وارد شوید!</p>
+    </div>
+    <% } %>
+
+    <% if alreadyTaken { %>
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>شما قبلا این آزمون را گذرانده اید.</p>
     </div>
     <% } %>
 

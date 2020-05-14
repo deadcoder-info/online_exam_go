@@ -11,16 +11,20 @@ type User struct {
 	PhoneNo  string `gorm:"type:varchar(15);unique_index"`
 	UserName string
 	Password string
+	Time     int
 	Exams    []Exam
+	Users    []User
 }
 
 type Exam struct {
 	gorm.Model
-	UserID    uint
-	Name      string
-	Password  string
-	Public    bool
-	Questions []Question
+	UserID             uint
+	Name               string
+	Password           string
+	Public             bool
+	Time               string
+	Questions          []Question
+	ExamParticipations []ExamParticipation
 }
 
 type UserAllowedToExam struct {
@@ -38,6 +42,13 @@ type Question struct {
 	Answer3    string
 	Answer4    string
 	AnswerDesc string
+}
+
+type ExamParticipation struct {
+	gorm.Model
+	UserID  uint
+	ExamID  uint
+	EndTime string
 }
 
 type Result struct {
