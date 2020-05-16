@@ -71,6 +71,10 @@ func RunWebPortal(addr string, db *gorm.DB) error {
 		TakeExamCode(w, r, db)
 	})
 
+	router.Path("/results/{exam_code}").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		Result(w, r, db)
+	})
+
 	http.Handle("/", router)
 	return http.ListenAndServe(addr, nil)
 }

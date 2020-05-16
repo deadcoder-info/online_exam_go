@@ -1,0 +1,44 @@
+<%: func ExamResult(data map[string]map[string]databaselayer.Result, w io.Writer) %>
+
+<%~ "index.html" %>
+
+<%@ nav { %>
+<div class="uk-navbar-left">
+    <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+</div>
+
+<div class="uk-navbar-right">
+    <ul class="uk-navbar-nav">
+        <li><a href="/history">تاریخچه</a></li>
+        <li><a href="/takeexam">شرکت در آزمون</a></li>
+        <li><a href="/createexam">برگذاری آزمون</a></li>
+        <li><a href="/dashboard">خانه</a></li>
+    </ul>
+
+</div>
+<% } %>
+
+<%@ body { %>
+<div class="uk-card uk-card-default" style="margin-top: 100px;" dir="rtl">
+
+    <h4 class="uk-padding uk-padding-remove-bottom uk-padding-remove-top">لیست پاسخ ها</h4>
+
+    <ul class="uk-list uk-list-striped uk-padding">
+        <% for userName, innerMap := range data { %>
+        <li uk-toggle="target: #data_<%== userName %>"><%= userName %>
+            <ul hidden dir="ltr" id="data_<%== userName %>" class="uk-list uk-padding">
+                <% for question, result := range innerMap { %>
+                <li dir="ltr">
+                    <h6><%= question %></h6>
+                    <h4>Answer: </h4>
+                    <p><%= result.Answer %></p>
+                    <p><%= result.Description %></p>
+                </li>
+                <hr />
+                <% } %>
+            </ul>
+        </li>
+        <% } %>
+    </ul>
+</div>
+<% } %>

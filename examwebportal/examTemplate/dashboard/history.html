@@ -38,6 +38,7 @@
             <tr>
                 <th style="text-align: right;" class="uk-table-expand">عنوان</th>
                 <th style="text-align: right;">عملیات ها</th>
+                <th style="text-align: right;"></th>
             </tr>
         </thead>
         <tbody>
@@ -45,6 +46,7 @@
             <tr>
                 <td><%= exam.Name %></td>
                 <td><a href="/examdetail/<%== UIntToStr(exam.ID) %>"><button class="uk-button uk-button-primary" type="button">مشاهده</button></a></td>
+                <td><a href="/results/<%== UIntToStr(exam.ID) %>"><button class="uk-button uk-button-primary" type="button">نتایج</button></a></td>
             </tr>
             <% } %>
         </tbody>

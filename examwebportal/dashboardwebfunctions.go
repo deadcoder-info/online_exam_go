@@ -248,10 +248,6 @@ func TakeExamCode(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 			examTemplate.TakeExamCode(false, x, true, databaselayer.Question{}, false, w)
 		}
 
-		// if questionIDUint == 0 {
-		// 	questionIDUint = questions[0].ID
-		// }
-
 		question := questions[questionIDUint]
 
 		if question.ExamID != uint(examIDUint) {
@@ -284,28 +280,45 @@ func TakeExamCode(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		currentQuestionSession.Save(r, w)
 
 		examTemplate.TakeExamCode(false, x, false, question, false, w)
-
-		// if questionIDUint == 0 {
-		// 	questionIDUint = questions[0].ID
-		// }
-
-		// i := 1
-
-		// for _, q := range questions {
-		// 	if q.ID == questionIDUint {
-		// 		if i+1 >= len(questions) {
-		// 			token, _ := CreateAllowedExamToken(0)
-		// 			allowedExamSession.Values[ALLOWEDEXAMSESSIONID] = token
-		// 			allowedExamSession.Save(r, w)
-		// 			examTemplate.TakeExamCode(false, x, false, databaselayer.Question{}, true, w)
-		// 			return
-		// 		}
-		// 		currentQuestionSession.Values[CURRENTQUESTIONSESSIONID] = i + 1
-		// 		currentQuestionSession.Save(r, w)
-		// 		question := questions[i+1]
-		// 		examTemplate.TakeExamCode(false, x, false, question, false, w)
-		// 	}
-		// 	i++
-		// }
 	}
+}
+
+func Result(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
+	session, _ := coockieStore.Get(r, ACCESSTOKENSESSION)
+	user := DecodeAccessToken(session.Values[ACCESSTOKEN].(string))
+	db.Where("phone_no = ?", user.PhoneNo).Find(&user)
+
+	vars := mux.Vars(r)
+	examID := vars["exam_code"]
+
+	exam := databaselayer.Exam{}
+
+	db.First(&exam, examID)
+
+	if exam.UserID != user.ID {
+		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+	}
+
+	data := map[string]map[string]databaselayer.Result{}
+
+	questions := []databaselayer.Question{}
+
+	db.Model(&exam).Related(&questions)
+
+	examParticipations := []databaselayer.ExamParticipation{}
+	db.Where("exam_id = ?", examID).Find(&examParticipations)
+
+	for _, ep := range examParticipations {
+		u := databaselayer.User{}
+		db.First(&u, ep.UserID)
+		innerMap := map[string]databaselayer.Result{}
+		data[u.UserName] = innerMap
+		for _, q := range questions {
+			res := databaselayer.Result{}
+			db.Where("user_id = ? AND question_id = ?", ep.UserID, q.ID).First(&res)
+			data[u.UserName][q.Question] = res
+		}
+	}
+
+	examTemplate.ExamResult(data, w)
 }
