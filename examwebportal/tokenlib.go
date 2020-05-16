@@ -68,3 +68,11 @@ func CreateAllowedExamToken(examID uint) (string, error) {
 	}
 	return token, nil
 }
+
+func DecodeAllowedExam(tokenString string) uint {
+	claims := jwt.MapClaims{}
+	jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte("<YOUR VERIFICATION KEY>"), nil
+	})
+	return uint(claims["examID"].(float64))
+}

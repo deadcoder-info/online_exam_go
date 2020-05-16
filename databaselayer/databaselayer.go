@@ -1,6 +1,8 @@
 package databaselayer
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
@@ -22,7 +24,7 @@ type Exam struct {
 	Name               string
 	Password           string
 	Public             bool
-	Time               string
+	Time               int
 	Questions          []Question
 	ExamParticipations []ExamParticipation
 }
@@ -42,19 +44,22 @@ type Question struct {
 	Answer3    string
 	Answer4    string
 	AnswerDesc string
+	Results    []Result
 }
 
 type ExamParticipation struct {
 	gorm.Model
 	UserID  uint
 	ExamID  uint
-	EndTime string
+	EndTime time.Time
 }
 
 type Result struct {
 	gorm.Model
-	Question Question
-	User     User
+	UserID      uint
+	QuestionID  uint
+	Answer      string
+	Description string
 }
 
 func NewDataBase() *gorm.DB {
@@ -68,6 +73,7 @@ func NewDataBase() *gorm.DB {
 	db.AutoMigrate(&UserAllowedToExam{})
 	db.AutoMigrate(&Question{})
 	db.AutoMigrate(&Result{})
+	db.AutoMigrate(&ExamParticipation{})
 
 	return db
 }

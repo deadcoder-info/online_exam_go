@@ -19,6 +19,8 @@ const (
 	CURRENTEXAMCREATEINDEX   = "cureentcreateexam"
 	ALLOWEDEXAMSESSION       = "allowedexamsession"
 	ALLOWEDEXAMSESSIONID     = "allowedsessionid"
+	CURRENTQUESTIONSESSION   = "currentquestionsession"
+	CURRENTQUESTIONSESSIONID = "currentquestionsessionid"
 )
 
 func SignUp(w http.ResponseWriter, r *http.Request, db *gorm.DB) {

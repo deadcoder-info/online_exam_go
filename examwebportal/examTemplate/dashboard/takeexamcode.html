@@ -1,4 +1,4 @@
-<%: func TakeExamCode(wrong bool, time string, w io.Writer) %>
+<%: func TakeExamCode(wrong bool, time string, timeFinished bool, question databaselayer.Question, examFinished bool, w io.Writer) %>
 
 <%~ "index.html" %>
 
@@ -22,51 +22,71 @@
 <div class="uk-card uk-card-default uk-card-body" style="margin-top: 100px;">
 
     <% if wrong { %>
-    <div class="uk-alert-danger" uk-alert>
+    <div class="uk-alert-danger" uk-alert dir="rtl">
         <a class="uk-alert-close" uk-close></a>
         <p>شما اجازه ی شرکت در این آزمون را ندارید. لطفا از بخش شرکت در آزمون دوباره اقدام کنید.</p>
     </div>
     <% } %>
+    <% if timeFinished { %>
+    <div class="uk-alert-danger" uk-alert dir="rtl">
+        <p>زمان شما برای شرکت در آزمون به اتمام رسیده است.</p>
+    </div>
+    <% } %>
+    <% if examFinished { %>
+    <div class="uk-alert-danger" uk-alert dir="rtl">
+        <p>به تمامی سوال ها پاسخ داده اید.</p>
+    </div>
+    <% } %>
 
-    <% if !wrong { %>
+    <% if !wrong && !timeFinished && !examFinished { %>
     <div class="uk-grid-small uk-child-width-auto" uk-grid uk-countdown="date: <%= time %>">
         <div>
             <div class="uk-countdown-number uk-countdown-days"></div>
-            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Days</div>
+            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">روز</div>
         </div>
         <div class="uk-countdown-separator">:</div>
         <div>
             <div class="uk-countdown-number uk-countdown-hours"></div>
-            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Hours</div>
+            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">ساعت</div>
         </div>
         <div class="uk-countdown-separator">:</div>
         <div>
             <div class="uk-countdown-number uk-countdown-minutes"></div>
-            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Minutes</div>
+            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">دقیقه</div>
         </div>
         <div class="uk-countdown-separator">:</div>
         <div>
             <div class="uk-countdown-number uk-countdown-seconds"></div>
-            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">Seconds</div>
+            <div class="uk-countdown-label uk-margin-small uk-text-center uk-visible@s">ثانیه</div>
         </div>
     </div>
     <% } %>
 
-    <form method="POST">
+    <% if !timeFinished && !examFinished { %>
+    <form dir="rtl" method="POST">
         <fieldset class="uk-fieldset">
-            <div class="uk-margin" style="direction: rtl;">
-                <input name="exam_code" class="uk-input" type="text" placeholder="کد آزمون">
-                <div style="margin-top: 20px;;">
-                    <h6>پسورد آزمون را وارد کنید - در صورتی که آزمون شمابدون پسورد میباشد آن را خالی بگذارید</h6>
-                    <input name="password" class="uk-input" type="password" placeholder="رمز آزمون">
-                </div>
+
+            <legend class="uk-legend uk-margin"><%= question.Question %></legend>
+
+            <div class="uk-margin">
+                <select class="uk-select" name="result">
+                    <option><%= question.Answer1 %></option>
+                    <option><%= question.Answer2 %></option>
+                    <option><%= question.Answer3 %></option>
+                    <option><%= question.Answer4 %></option>
+                </select>
             </div>
 
             <div class="uk-margin">
-                <input type="submit" class="uk-button uk-button-secondary" value="شرکت در آزمون">
+                <textarea class="uk-textarea" name="description" rows="5" placeholder="توضیحات"></textarea>
+            </div>
+
+            <div class="uk-margin">
+                <input type="submit" class="uk-button uk-button-primary" value="ارسال پاسخ">
             </div>
 
         </fieldset>
     </form>
+    <% } %>
 </div>
 <% } %>
