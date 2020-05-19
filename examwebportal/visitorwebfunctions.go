@@ -58,7 +58,7 @@ func SignUp(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		db.Create(&u)
 		session.Options.MaxAge = -1
 		session.Save(r, w)
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		http.Redirect(w, r, "/login/success", http.StatusSeeOther)
 	}
 }
 
@@ -115,9 +115,10 @@ func Login(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	if session.Values[ACCESSTOKEN] != nil && session.Values[ACCESSTOKEN] != "" {
 		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 	}
+
 	switch r.Method {
 	case "GET":
-		examTemplate.Login(false, w)
+		examTemplate.Login(false, false, w)
 	case "POST":
 		userName := r.FormValue("username")
 		password := r.FormValue("password")
@@ -127,7 +128,7 @@ func Login(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		db.Where(&databaselayer.User{UserName: userName}).First(&u)
 
 		if u.CreatedAt.IsZero() || u.Password != password {
-			examTemplate.Login(true, w)
+			examTemplate.Login(true, false, w)
 			return
 		}
 

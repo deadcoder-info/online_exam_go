@@ -28,14 +28,18 @@ func CreateExam(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 	case "POST":
 		user := DecodeAccessToken(session.Values[ACCESSTOKEN].(string))
 		db.Where("phone_no = ?", user.PhoneNo).Find(&user)
-		private, _ := strconv.ParseBool(r.FormValue("private"))
+		private := false
+
+		if r.FormValue("private") == "on" {
+			private = true
+		}
 
 		timeInt, _ := strconv.Atoi(r.FormValue("exam_time"))
 		exam := databaselayer.Exam{
 			UserID:   user.ID,
 			Name:     r.FormValue("exam_name"),
 			Time:     timeInt,
-			Password: r.FormValue("exam_password"),
+			Password: r.FormValue("password"),
 			Public:   !private,
 		}
 		db.Create(&exam)
@@ -68,20 +72,18 @@ func AddQuestion(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 
 	switch r.Method {
 	case "GET":
-		examTemplate.AddQuestionToExam(w)
+		examTemplate.AddQuestionToExam(false, w)
 	case "POST":
-		if r.FormValue("add_question_btn") != "" {
-			q := databaselayer.Question{
-				ExamID:   exam.ID,
-				Question: r.FormValue("question"),
-				Answer1:  r.FormValue("answer_1"),
-				Answer2:  r.FormValue("answer_2"),
-				Answer3:  r.FormValue("answer_3"),
-				Answer4:  r.FormValue("answer_4"),
-			}
-			db.Create(&q)
-			examTemplate.AddQuestionToExam(w)
+		q := databaselayer.Question{
+			ExamID:   exam.ID,
+			Question: r.FormValue("question"),
+			Answer1:  r.FormValue("answer_1"),
+			Answer2:  r.FormValue("answer_2"),
+			Answer3:  r.FormValue("answer_3"),
+			Answer4:  r.FormValue("answer_4"),
 		}
+		db.Create(&q)
+		examTemplate.AddQuestionToExam(true, w)
 	}
 }
 

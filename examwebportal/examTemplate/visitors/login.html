@@ -1,56 +1,153 @@
-<%: func Login(wrongData bool, w io.Writer) %>
+<%: func Login(wrongData bool, successSignup bool, w io.Writer) %>
 
-<%~ "index.html" %>
-<%@ cover { %>
-<img src="static/assets/main_page.jpg" alt="" uk-cover>
-<% } %>
 
-<%@ nav { %>
-<div class="uk-navbar-left">
-    <a class="uk-navbar-item uk-logo" href="#">Logo</a>
-</div>
 
-<div class="uk-navbar-right">
-    <ul class="uk-navbar-nav">
-        <li><a href="/phoneverify">ثبت نام</a></li>
-        <li><a href="/login">ورود</a></li>
-    </ul>
+<!doctype html>
+<html lang="en">
 
-</div>
-<% } %>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title -->
+    <title>پنل مدیریت</title>
 
-<%@ body { %>
-<div class="uk-flex uk-flex-center uk-flex-middle uk-height-viewport">
-    <div>
-        <div class="uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title">ورود</h3>
-            <form method="POST">
+    <!-- Favicon -->
+    <link rel="icon" href="static/assets/img/core-img/favicon.png">
 
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: user"></span>
-                        <input class="uk-input" name="username" placeholder="نام کاربری" type="text">
+    <link rel="stylesheet" href="static/assets/style.css">
+
+</head>
+
+<body class="login-area">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="ctn-preloader" class="ont-preloader">
+            <div class="animation-preloader">
+                <div class="spinner"></div>
+                <div class="txt-loading">
+                    <span data-text-preloader="موتریلا" class="letters-loading">
+                        موتریلا
+                    </span>
+                </div>
+                <p class="text-center">درحال اجرا</p>
+            </div>
+
+            <div class="loader">
+                <div class="row">
+                    <div class="col-3 loader-section section-left">
+                        <div class="bg"></div>
+                    </div>
+                    <div class="col-3 loader-section section-left">
+                        <div class="bg"></div>
+                    </div>
+                    <div class="col-3 loader-section section-right">
+                        <div class="bg"></div>
+                    </div>
+                    <div class="col-3 loader-section section-right">
+                        <div class="bg"></div>
                     </div>
                 </div>
-
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                        <input class="uk-input" name="password" placeholder="پسورد" type="password">
-                    </div>
-                </div>
-
-                <input type="submit" class="uk-button" value="ورود">
-
-                <% if wrongData { %>
-                <div class="uk-alert-danger" uk-alert>
-                    <a class="uk-alert-close" uk-close></a>
-                    <p>نام کاربری یا رمز عبور اشتباه می باشد</p>
-                </div>
-                <% } %>
-
-            </form>
+            </div>
         </div>
     </div>
-</div>
-<% } %>
+    <!-- Preloader -->
+
+
+    <!-- ======================================
+    ******* Page Wrapper Area Start **********
+    ======================================= -->
+    <div class="main-content- h-100vh">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center">
+                <div class="col-12">
+                    <!-- Middle Box -->
+                    <div class="middle-box">
+                        <div class="card">
+                            <div class="card-body p-4">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <div class="xs-d-none mb-50-xs break-320-576-none">
+                                            <img src="static/assets/img/bg-img/1.png" alt="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <!-- Logo -->
+                                        <h4 class="font-18 mb-30">ورود به پنل کاربری</h4>
+
+                                        <% if wrongData { %>
+                                        <div class="alert bg-danger">
+                                            <span class="closebtn" onclick="this.parentElement.style.display='none';">×
+                                            </span>
+                                            <strong>خطا -</strong> نام کاربری و یا رمز عبور شما اشتباه میباشد!
+                                        </div>
+                                        <% } %>
+
+                                        <% if successSignup { %>
+                                        <div class="alert bg-success">
+                                            <span class="closebtn" onclick="this.parentElement.style.display='none';">×
+                                            </span>
+                                            ثبت نام شما با موفقیت انجام شد. هم اکنون می توانید وارد شوید!
+                                        </div>
+                                        <% } %>
+
+                                        <form method="POST">
+                                            <div class="form-group">
+                                                <label class="float-left" for="emailaddress">نام کاربری</label>
+                                                <input class="form-control" name="username" type="text"
+                                                    id="emailaddress" required="" placeholder="">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <a href="forget-password.html" class="text-dark float-right"></a>
+                                                <label class="float-left" for="password">رمز عبور</label>
+                                                <input class="form-control" name="password" type="password" required=""
+                                                    id="password" placeholder="">
+                                            </div>
+
+                                            <div
+                                                class="form-group d-flex justify-content-between align-items-center mb-3">
+                                                <span class="font-13 text-primary"><a href="forget-password.html">رمز
+                                                        عبور خود را فراموش کرده اید؟</a></span>
+                                            </div>
+
+                                            <div class="form-group mb-0">
+                                                <button class="btn btn-primary btn-block" type="submit">ورود </button>
+                                            </div>
+
+                                            <div class="text-center mt-15"><span
+                                                    class="mr-2 font-13 font-weight-bold">اگر ثبت نام نکرده اید؟
+                                                </span><a class="font-13 font-weight-bold" href="/phoneverify">ثبت نا م
+                                                    کنید</a></div>
+
+                                        </form>
+                                    </div> <!-- end card-body -->
+                                </div>
+                                <!-- end card -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================
+    ********* Page Wrapper Area End ***********
+    ======================================= -->
+
+    <!-- Must needed plugins to the run this Template -->
+    <script src="static/assets/js/jquery.min.js"></script>
+    <script src="static/assets/js/popper.min.js"></script>
+    <script src="static/assets/js/bootstrap.min.js"></script>
+    <script src="static/assets/js/bundle.js"></script>
+
+    <!-- Active JS -->
+    <script src="static/assets/js/default-assets/active.js"></script>
+
+</body>
+
+</html>
