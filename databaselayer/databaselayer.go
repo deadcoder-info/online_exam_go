@@ -63,7 +63,7 @@ type Result struct {
 }
 
 func NewDataBase() *gorm.DB {
-	db, err := gorm.Open("sqlite3", "test.db")
+	db, err := gorm.Open("sqlite3", "database.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
