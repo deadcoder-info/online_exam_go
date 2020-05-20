@@ -6,6 +6,7 @@ import (
 	"online_exam_go/databaselayer"
 	"online_exam_go/examwebportal"
 	"os"
+	"fmt"
 )
 
 type configration struct {
@@ -21,4 +22,5 @@ func main() {
 	json.NewDecoder(file).Decode(config)
 	db := databaselayer.NewDataBase()
 	examwebportal.RunWebPortal(config.ServerAddress, db)
+	fmt.Println("Server is running on: " + config.ServerAddress)
 }

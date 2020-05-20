@@ -23,11 +23,13 @@ COPY . ./
 
 RUN ls .
 
-# Build the Go app
-RUN go build .
-
 # Generate templates
 RUN hero -source="examwebportal/examTemplate" -pkgname="examTemplate"
+
+RUN mkdir database
+
+# Build the Go app
+RUN go build .
 
 # Expose port 8080 to the outside world
 EXPOSE 8787
