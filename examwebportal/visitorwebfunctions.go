@@ -1,6 +1,7 @@
 package examwebportal
 
 import (
+	"math/rand"
 	"net/http"
 	"online_exam_go/databaselayer"
 	"online_exam_go/examwebportal/examTemplate"
@@ -74,7 +75,14 @@ func PhoneVerify(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		db.Where(&a).First(&a)
 
 		if a.CreatedAt.IsZero() {
-			token, _ := CreateSMSCodeToken(phoneNo, 123456, false)
+			code := int64(rand.Intn(899999))
+			code = code + 100000
+
+			strCode := strconv.Itoa(int(code))
+
+			SendKavenegarOneToken("shakiba-exam-verification", phoneNo, strCode)
+
+			token, _ := CreateSMSCodeToken(phoneNo, code, false)
 
 			session, _ := coockieStore.Get(r, SMSTOKENSESSION)
 
