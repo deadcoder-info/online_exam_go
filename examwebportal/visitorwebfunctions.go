@@ -6,6 +6,7 @@ import (
 	"online_exam_go/databaselayer"
 	"online_exam_go/examwebportal/examTemplate"
 	"strconv"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -75,6 +76,7 @@ func PhoneVerify(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
 		db.Where(&a).First(&a)
 
 		if a.CreatedAt.IsZero() {
+			rand.Seed(time.Now().UnixNano())
 			code := int64(rand.Intn(899999))
 			code = code + 100000
 
